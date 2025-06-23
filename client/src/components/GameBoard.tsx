@@ -2,9 +2,10 @@ import type { GridItems } from "./types";
 import GridItem from "./GridItem";
 const GameBoard: React.FC<{
   gridItems: GridItems;
-  selectGridItem: (id: number) => void;
   gridSize: number;
-}> = ({ gridItems, selectGridItem, gridSize }) => (
+  gameId: string;
+  myTurn: boolean;
+}> = ({ gridItems, gridSize, gameId, myTurn }) => (
   <div className="game-board">
     <div
       className={`grid h-[600px]`}
@@ -14,8 +15,9 @@ const GameBoard: React.FC<{
         <GridItem
           gridItem={gridItem}
           key={index}
-          selectGridItem={selectGridItem}
           gridSize={gridSize}
+          gameId={gameId}
+          myTurn={myTurn}
         />
       ))}
     </div>

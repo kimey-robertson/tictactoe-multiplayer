@@ -1,9 +1,9 @@
 const games: {
   [key: string]: {
-    board: string[];
-    currentPlayer: string;
+    board: ("X" | "O" | null)[];
+    currentPlayer: "X" | "O" | null;
     players: { [key: string]: string };
-    status: string;
+    status: "waiting" | "in-progress" | "finished";
   };
 } = {};
 
@@ -36,4 +36,34 @@ function joinGame(gameId: string, playerSocketId: string) {
   };
 }
 
-export { createGame, joinGame };
+function makeMove(gameId: string, playerSocketId: string, index: number) {
+  const game = games[gameId];
+  if (!game || game.status !== "in-progress") return { error: "Invalid game" };
+
+  const playerSymbol = Object.entries(game.players).find(
+    ([, id]) => id === playerSocketId
+  )?.[0];
+
+  if (!playerSymbol) return { error: "Player not found" };
+
+  if (playerSymbol !== game.currentPlayer) return { error: "Not your turn" };
+
+  if (game.board[index] !== null) return { error: "Cell already taken" };
+
+  game.board[index] = playerSymbol as "X" | "O";
+
+  if (!game.board.includes(null)) {
+    game.status = "finished";
+    return { board: game.board, winner: "draw" };
+  }
+
+  game.currentPlayer = playerSymbol === "X" ? "O" : "X";
+
+  return {
+    board: game.board,
+    currentPlayer: game.currentPlayer,
+    playerSymbol,
+  };
+}
+
+export { createGame, joinGame, makeMove };

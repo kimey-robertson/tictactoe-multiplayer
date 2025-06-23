@@ -1,13 +1,15 @@
+import { socket } from "../socket";
 import type { GridItem } from "./types";
 
 const GridItem: React.FC<{
   gridItem: GridItem;
-  selectGridItem: (id: number) => void;
   gridSize: number;
-}> = ({ gridItem, selectGridItem, gridSize }) => {
+  gameId: string;
+  myTurn: boolean;
+}> = ({ gridItem, gridSize, gameId, myTurn }) => {
   const clickGridItem = () => {
-    if (gridItem.player !== null) return;
-    selectGridItem(gridItem.id);
+    if (gridItem?.player !== null || !myTurn) return;
+    socket.emit("make-move", gameId, gridItem.id);
   };
   return (
     <div
@@ -19,11 +21,7 @@ const GridItem: React.FC<{
         width: `${600 / gridSize}px`,
       }}
     >
-      {gridItem.player === "Cross" ? (
-        <h1>X</h1>
-      ) : gridItem.player === "Circle" ? (
-        <h1>O</h1>
-      ) : null}
+      <h1>{gridItem?.player}</h1>
     </div>
   );
 };

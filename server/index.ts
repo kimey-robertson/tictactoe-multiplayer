@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
-import { createGame, joinGame } from "./gameManager";
+import { createGame, joinGame, makeMove } from "./gameManager";
 
 const app = express();
 const server = http.createServer(app);
@@ -31,6 +31,16 @@ io.on("connection", (socket) => {
     console.log("game", game);
     io.to(gameId).emit("player-joined", game);
     console.log(`Player ${game.playerSymbol} joined game ${gameId}`);
+  });
+
+  socket.on("make-move", (gameId: string, index: number) => {
+    const result = makeMove(gameId, socket.id, index);
+    console.log("result", result);
+    if (result.error) {
+      socket.emit("error-message", result.error);
+    } else {
+      io.to(gameId).emit("game-updated", result);
+    }
   });
 });
 
