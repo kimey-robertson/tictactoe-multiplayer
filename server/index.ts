@@ -1,7 +1,13 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
-import { createGame, joinGame, makeMove } from "./gameManager";
+import {
+  createGame,
+  deleteGame,
+  getGameByPlayerSocketId,
+  joinGame,
+  makeMove,
+} from "./gameManager";
 
 const app = express();
 const server = http.createServer(app);
@@ -46,6 +52,30 @@ io.on("connection", (socket) => {
     } else {
       io.to(gameId).emit("game-updated", result);
     }
+  });
+
+  socket.on("disconnect", () => {
+    const match = getGameByPlayerSocketId(socket.id);
+    console.log("game in disconnect:", match);
+
+    if (!match) return;
+
+    const { gameId, game, symbol } = match;
+
+    // Forfeit game
+    game.status = "forfeited";
+
+    const opponentSymbol = symbol === "X" ? "O" : "X";
+    const opponentSocketId = game.players[opponentSymbol];
+
+    if (opponentSocketId) {
+      io.to(gameId).emit("opponent-disconnected", {
+        message: `Player ${symbol} disconnected. You win!`,
+        winner: opponentSymbol,
+      });
+    }
+
+    deleteGame(gameId);
   });
 });
 

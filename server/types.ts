@@ -3,7 +3,7 @@ export type Game = {
   board: ("X" | "O" | null)[];
   currentPlayer: "X" | "O";
   players: { [key: string]: string };
-  status: "waiting" | "in-progress" | "finished";
+  status: "waiting" | "in-progress" | "finished" | "forfeited";
   gameId?: string;
 };
 

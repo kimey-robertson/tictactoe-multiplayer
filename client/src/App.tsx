@@ -70,6 +70,19 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    const handleDisconnect = ({ message }: { message: string }) => {
+      socket.disconnect();
+      alert(message);
+      // Have to reset the game state
+    };
+    socket.on("opponent-disconnected", handleDisconnect);
+
+    return () => {
+      socket.off("opponent-disconnected", handleDisconnect);
+    };
+  }, []);
+
   return (
     <>
       {!gameIdClient ? (

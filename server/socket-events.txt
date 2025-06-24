@@ -35,6 +35,15 @@ game-updated
 Called - Server in make-move if no error
 Receieved - Client sets the current player (turn) and the updated gridItems
 
+disconnect
+Receieved - Server checks if game exists using getGameByPlayerSocketId. If so, sets the game status to forfeited and sends 
+opponent-disconnected to inform the remaining player they won. Deletes the game from the games object
+
+opponent-disconnected
+Called - Server if a player disconnects
+Receieved - Client sends an alert and turns the socket off
+
+
 
 
 

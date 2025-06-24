@@ -62,4 +62,19 @@ function makeMove(gameId: string, playerSocketId: string, index: number) {
   };
 }
 
-export { createGame, joinGame, makeMove };
+function getGameByPlayerSocketId(playerSocketId: string) {
+  // Check all games for the player socket id and get the game and symbol
+  for (const [gameId, game] of Object.entries(games)) {
+    const symbol = Object.entries(game.players).find(
+      ([, id]) => id === playerSocketId
+    )?.[0];
+    if (symbol) return { gameId, game, symbol };
+  }
+  return null;
+}
+
+function deleteGame(gameId: string) {
+  delete games[gameId];
+}
+
+export { createGame, joinGame, makeMove, getGameByPlayerSocketId, deleteGame };
