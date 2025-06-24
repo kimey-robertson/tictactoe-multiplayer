@@ -1,22 +1,20 @@
-const games: {
-  [key: string]: {
-    board: ("X" | "O" | null)[];
-    currentPlayer: "X" | "O" | null;
-    players: { [key: string]: string };
-    status: "waiting" | "in-progress" | "finished";
-  };
-} = {};
+import { Games } from "./types";
+
+const games: Games = {};
 
 function createGame(playerSocketId: string) {
   const gameId = Math.random().toString(36).substring(2, 6); // short ID
   games[gameId] = {
+    gameId,
     board: Array(9).fill(null),
     currentPlayer: "X",
     players: { X: playerSocketId },
     status: "waiting",
+    playerSymbol: "X",
   };
-  console.log(games);
-  return { gameId, playerSymbol: "X", players: games[gameId].players };
+  const game = games[gameId];
+  console.log(game);
+  return game;
 }
 
 function joinGame(gameId: string, playerSocketId: string) {

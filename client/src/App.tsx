@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import CreateOrJoinGame from "./components/CreateOrJoinGame";
 import { socket } from "./socket";
 import TicTacToe from "./components/TicTacToe";
-import { GameData, GridItems } from "./components/types";
+import { GridItems } from "./components/types";
+import { Game } from "../../server/types";
 
 function App() {
   const [gameIdClient, setGameIdClient] = useState("");
@@ -11,7 +12,9 @@ function App() {
     "X" | "O" | null
   >(null);
   const [gameNotFound, setGameNotFound] = useState(false);
-  const [players, setPlayers] = useState<{ [key: string]: string }>({});
+  const [playersClient, setPlayersClient] = useState<{ [key: string]: string }>(
+    {}
+  );
   const [currentPlayer, setCurrentPlayer] = useState<"X" | "O">("X");
   const [gridItems, setGridItems] = useState<GridItems>([]);
 
@@ -20,48 +23,34 @@ function App() {
       console.log("connected to server");
     });
 
-    socket.on(
-      "game-created",
-      ({
-        gameId,
-        playerSymbol,
-        players: currentPlayers,
-      }: {
-        gameId: string;
-        playerSymbol: "X" | "O";
-        players: { [key: string]: string };
-      }) => {
-        console.log("game created", gameId, playerSymbol);
-        setGameIdClient(gameId);
-        setPlayerSymbolClient(playerSymbol);
-        console.log("currentPlayers", currentPlayers);
-        setPlayers(currentPlayers);
-        setGridItems(
-          Array(9)
-            .fill(null)
-            .map((item, index) => ({ id: index, player: item }))
-        );
+    socket.on("game-created", (game: Game) => {
+      if (!game.gameId) {
+        socket.emit("error-message", "Could not create game");
+        return;
       }
-    );
+      setGameIdClient(game.gameId);
+      setPlayerSymbolClient(game.playerSymbol);
+      setPlayersClient(game.players);
+      setGridItems(
+        Array(9)
+          .fill(null)
+          .map((item, index) => ({ id: index, player: item }))
+      );
+    });
 
-    socket.on(
-      "game-joined",
-      ({
-        gameId,
-        playerSymbol,
-      }: {
-        gameId: string;
-        playerSymbol: "X" | "O";
-      }) => {
-        console.log("game joined", gameId, playerSymbol);
-        setGameIdClient(gameId);
-        setPlayerSymbolClient(playerSymbol);
+    socket.on("game-joined", (game: Game) => {
+      console.log("game joined", game);
+      if (!game.gameId) {
+        socket.emit("error-message", "Could not join game");
+        return;
       }
-    );
+      setGameIdClient(game.gameId);
+      setPlayerSymbolClient(game.playerSymbol);
+    });
 
-    socket.on("player-joined", (game) => {
+    socket.on("player-joined", (game: Game) => {
       console.log("player joined", game);
-      setPlayers(game.players);
+      setPlayersClient(game.players);
     });
 
     socket.on("game-not-found", () => {
@@ -69,7 +58,7 @@ function App() {
       setGameNotFound(true);
     });
 
-    socket.on("game-updated", (game: GameData) => {
+    socket.on("game-updated", (game: Game) => {
       console.log("game updated", game.currentPlayer);
       setCurrentPlayer(game.currentPlayer);
       setGridItems(
@@ -91,7 +80,7 @@ function App() {
         <TicTacToe
           gridSize={3}
           gameId={gameIdClient}
-          players={players}
+          players={playersClient}
           playerSymbol={playerSymbolClient}
           myTurn={currentPlayer === playerSymbolClient}
           gridItems={gridItems}

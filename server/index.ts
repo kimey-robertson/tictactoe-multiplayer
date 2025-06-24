@@ -14,10 +14,15 @@ io.on("connection", (socket) => {
 
   socket.on("create-game", () => {
     console.log("create-game-event");
-    const { gameId, playerSymbol, players } = createGame(socket.id);
-    socket.join(gameId);
-    socket.emit("game-created", { gameId, playerSymbol, players });
-    console.log(`Player ${playerSymbol} joined game ${gameId}`);
+    const game = createGame(socket.id);
+    console.log("game", game);
+    if (!game.gameId) {
+      socket.emit("error-message", "Could not create game");
+      return;
+    }
+    socket.join(game.gameId);
+    socket.emit("game-created", game);
+    console.log(`Player ${game.playerSymbol} joined game ${game.gameId}`);
   });
 
   socket.on("join-game", (gameId: string) => {
