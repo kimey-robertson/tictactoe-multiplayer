@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
     }
     socket.join(game.gameId);
     socket.emit("game-created", game);
-    console.log(`Player ${game.playerSymbol} joined game ${game.gameId}`);
+    console.log(`Player X joined game ${game.gameId}`);
   });
 
   socket.on("join-game", (gameId: string) => {
@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
     socket.emit("game-joined", game);
     console.log("game", game);
     io.to(gameId).emit("player-joined", game);
-    console.log(`Player ${game.playerSymbol} joined game ${gameId}`);
+    console.log(`Player O joined game ${gameId}`);
   });
 
   socket.on("make-move", (gameId: string, index: number) => {

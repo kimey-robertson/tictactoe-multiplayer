@@ -8,9 +8,7 @@ import { Game } from "../../server/types";
 
 function App() {
   const [gameIdClient, setGameIdClient] = useState("");
-  const [playerSymbolClient, setPlayerSymbolClient] = useState<
-    "X" | "O" | null
-  >(null);
+  const [playerSymbol, setPlayerSymbol] = useState<"X" | "O">("X");
   const [gameNotFound, setGameNotFound] = useState(false);
   const [playersClient, setPlayersClient] = useState<{ [key: string]: string }>(
     {}
@@ -29,7 +27,7 @@ function App() {
         return;
       }
       setGameIdClient(game.gameId);
-      setPlayerSymbolClient(game.playerSymbol);
+      setPlayerSymbol("X");
       setPlayersClient(game.players);
       setGridItems(
         Array(9)
@@ -45,7 +43,7 @@ function App() {
         return;
       }
       setGameIdClient(game.gameId);
-      setPlayerSymbolClient(game.playerSymbol);
+      setPlayerSymbol("O");
     });
 
     socket.on("player-joined", (game: Game) => {
@@ -81,8 +79,8 @@ function App() {
           gridSize={3}
           gameId={gameIdClient}
           players={playersClient}
-          playerSymbol={playerSymbolClient}
-          myTurn={currentPlayer === playerSymbolClient}
+          playerSymbol={playerSymbol}
+          myTurn={currentPlayer === playerSymbol}
           gridItems={gridItems}
           currentPlayer={currentPlayer}
         />

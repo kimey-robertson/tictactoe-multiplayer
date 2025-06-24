@@ -10,10 +10,10 @@ function createGame(playerSocketId: string) {
     currentPlayer: "X",
     players: { X: playerSocketId },
     status: "waiting",
-    playerSymbol: "X",
   };
   const game = games[gameId];
-  console.log(game);
+  console.log("game:", game);
+  console.log("games:", games);
   return game;
 }
 
@@ -23,12 +23,10 @@ function joinGame(gameId: string, playerSocketId: string) {
 
   game.players.O = playerSocketId;
   game.status = "in-progress";
-  console.log(games);
   return {
     gameId,
     board: game.board,
     currentPlayer: game.currentPlayer,
-    playerSymbol: "O",
     players: game.players,
     status: game.status,
   };
