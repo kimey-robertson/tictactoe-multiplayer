@@ -1,0 +1,42 @@
+error-message
+Called - Server and client, gets emitted if there's no gameId, or a player makes a illegal move
+Received - Will create an alert with the error message
+
+join-game
+Called - Client when the user submits a gameId in the join game input
+Received - Server runs the joinGame function. Will run the game-not-found event if the gameId is invalid. Joins the socket if the gameId is valid.
+Sends the game-joined event. Emits player-joined to all in the current room
+
+create-game
+Called - Client when user clicks the 'Create Game' button.
+Received - Server runs the createGame function. Will run error-message if no gameId. Joins the room based on the gameId. Emits game-created
+
+make-move
+Called - Client when a gridItem is clicked and it's their turn.
+Received - Server runs the makeMove function. Will run either error-message if there's an error from makeMove or will run game-udated
+
+game-created
+Called - Server in create-game
+Received - Client runs error-message if no gameId. Updates necessary client state from game object
+
+game-not-found
+Called - Server in join-game
+Received - Client sets gameNotFound state to give user feedback and not allow to join a room
+
+game-joined
+Called - Server in join-game if gameId is valid
+Recieved - Client runs error-message if no gameId, then sets client gameId and playerSymbol state
+
+player-joined
+Called - Server in join-game to all in the current room
+Recieved - Client sets all the current players state
+
+game-updated
+Called - Server in make-move if no error
+Receieved - Client sets the current player (turn) and the updated gridItems
+
+
+
+
+
+
