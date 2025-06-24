@@ -1,4 +1,4 @@
-import { Games } from "./types";
+import { Board, Games, MoveResult, Winner } from "./types";
 
 const games: Games = {};
 
@@ -32,7 +32,11 @@ function joinGame(gameId: string, playerSocketId: string) {
   };
 }
 
-function makeMove(gameId: string, playerSocketId: string, index: number) {
+function makeMove(
+  gameId: string,
+  playerSocketId: string,
+  index: number
+): MoveResult {
   const game = games[gameId];
   if (!game || game.status !== "in-progress") return { error: "Invalid game" };
 
@@ -48,6 +52,13 @@ function makeMove(gameId: string, playerSocketId: string, index: number) {
 
   game.board[index] = playerSymbol as "X" | "O";
 
+  const winner = checkWinner(game.board);
+
+  if (winner) {
+    game.status = "finished";
+    return { board: game.board, winner };
+  }
+
   if (!game.board.includes(null)) {
     game.status = "finished";
     return { board: game.board, winner: "draw" };
@@ -58,8 +69,28 @@ function makeMove(gameId: string, playerSocketId: string, index: number) {
   return {
     board: game.board,
     currentPlayer: game.currentPlayer,
-    playerSymbol,
   };
+}
+
+function checkWinner(board: Board): Winner {
+  const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (const [a, b, c] of winningCombinations) {
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      return board[a];
+    }
+  }
+
+  return null;
 }
 
 function getGameByPlayerSocketId(playerSocketId: string) {
@@ -77,4 +108,11 @@ function deleteGame(gameId: string) {
   delete games[gameId];
 }
 
-export { createGame, joinGame, makeMove, getGameByPlayerSocketId, deleteGame };
+export {
+  createGame,
+  joinGame,
+  makeMove,
+  getGameByPlayerSocketId,
+  deleteGame,
+  checkWinner,
+};

@@ -11,3 +11,14 @@ export type Game = {
 export type Games = {
   [key: string]: Game;
 };
+
+export type Board = ("X" | "O" | null)[];
+
+export type Winner = "X" | "O" | "draw" | null;
+
+export type MoveResult = {
+  board?: Board;
+  currentPlayer?: "X" | "O";
+  winner?: "X" | "O" | "draw" | null;
+  error?: string;
+};

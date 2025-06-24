@@ -45,12 +45,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("make-move", (gameId: string, index: number) => {
-    const result = makeMove(gameId, socket.id, index);
-    console.log("result", result);
-    if (result.error) {
-      socket.emit("error-message", result.error);
+    const moveResult = makeMove(gameId, socket.id, index);
+    console.log("moveResult", moveResult);
+    if (moveResult.error) {
+      socket.emit("error-message", moveResult.error);
     } else {
-      io.to(gameId).emit("game-updated", result);
+      io.to(gameId).emit("game-updated", moveResult);
     }
   });
 

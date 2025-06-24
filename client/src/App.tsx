@@ -4,7 +4,7 @@ import CreateOrJoinGame from "./components/CreateOrJoinGame";
 import { socket } from "./socket";
 import TicTacToe from "./components/TicTacToe";
 import { GridItems } from "./components/types";
-import { Game } from "../../server/types";
+import { Game, MoveResult } from "../../server/types";
 
 function App() {
   const [gameIdClient, setGameIdClient] = useState("");
@@ -56,12 +56,21 @@ function App() {
       setGameNotFound(true);
     });
 
-    socket.on("game-updated", (game: Game) => {
-      console.log("game updated", game.currentPlayer);
-      setCurrentPlayer(game.currentPlayer);
-      setGridItems(
-        game.board.map((item, index) => ({ id: index, player: item }))
-      );
+    socket.on("game-updated", (moveResult: MoveResult) => {
+      if (moveResult.board && moveResult.currentPlayer) {
+        setCurrentPlayer(moveResult.currentPlayer);
+        setGridItems(
+          moveResult.board.map((item, index) => ({ id: index, player: item }))
+        );
+      }
+      if (moveResult.error) {
+        alert(moveResult.error);
+        return;
+      }
+      if (moveResult.winner) {
+        alert(`${moveResult.winner} wins!`);
+        return;
+      }
     });
 
     socket.on("error-message", (error: string) => {
