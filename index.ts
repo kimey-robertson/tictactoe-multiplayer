@@ -16,10 +16,10 @@ const io = new Server(server, { cors: { origin: "*" } });
 
 const PORT = process.env.PORT || 8000;
 
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static(path.join(__dirname, "./client/dist")));
 
 app.get("/{*any}", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+  res.sendFile(path.join(__dirname, "./client/dist/index.html"));
 });
 
 io.on("connection", (socket) => {
