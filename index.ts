@@ -14,7 +14,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
+console.log("process.env.PORT:", process.env.PORT);
 const PORT = process.env.PORT || 8000;
+console.log("PORT:", PORT);
 
 app.use(express.static(path.join(__dirname, "./client/dist")));
 
