@@ -4,7 +4,7 @@ import CreateOrJoinGame from "./components/CreateOrJoinGame";
 import { socket } from "./socket";
 import TicTacToe from "./components/TicTacToe";
 import { GridItems } from "./components/types";
-import { Game, MoveResult } from "../../server/types";
+import { Game, MoveResult } from "../../types";
 
 function App() {
   const [gameIdClient, setGameIdClient] = useState("");
