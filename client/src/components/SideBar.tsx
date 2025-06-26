@@ -1,3 +1,5 @@
+import { copyToClipboard } from "./utils";
+
 const SideBar: React.FC<{
   currentPlayer: "X" | "O";
   gameId: string;
@@ -7,7 +9,15 @@ const SideBar: React.FC<{
 }> = ({ currentPlayer, gameId, playerSymbol, isGameFull }) => {
   return (
     <div className="m-auto" data-testid="sidebar-container">
-      <h1 className="text-2xl">Game ID: {gameId}</h1>
+      <h1 className="text-2xl">
+        Game ID:{" "}
+        <span
+          className="font-bold cursor-pointer"
+          onClick={() => copyToClipboard(gameId)}
+        >
+          {gameId}
+        </span>
+      </h1>
       <h1 className="text-2xl">
         <span className="font-bold">You are player {playerSymbol}</span>
       </h1>
