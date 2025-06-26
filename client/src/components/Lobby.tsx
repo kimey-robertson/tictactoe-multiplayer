@@ -2,7 +2,7 @@ import GameBoard from "./GameBoard";
 import SideBar from "./SideBar";
 import { GridItems } from "./types";
 
-const TicTacToe: React.FC<{
+const Lobby: React.FC<{
   gridSize: number;
   gameId: string;
   players: { [key: string]: string };
@@ -19,6 +19,8 @@ const TicTacToe: React.FC<{
   gridItems,
   currentPlayer,
 }) => {
+  const isGameFull = Object.keys(players).length === 2;
+
   return (
     <div className="flex game-container" data-testid={"game-container"}>
       <SideBar
@@ -26,15 +28,18 @@ const TicTacToe: React.FC<{
         gameId={gameId}
         players={players}
         playerSymbol={playerSymbol}
+        isGameFull={isGameFull}
       />
-      <GameBoard
-        gridItems={gridItems}
-        gridSize={gridSize}
-        gameId={gameId}
-        myTurn={myTurn}
-      />
+      {isGameFull ? (
+        <GameBoard
+          gridItems={gridItems}
+          gridSize={gridSize}
+          gameId={gameId}
+          myTurn={myTurn}
+        />
+      ) : null}
     </div>
   );
 };
 
-export default TicTacToe;
+export default Lobby;

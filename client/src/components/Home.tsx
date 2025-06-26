@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import CreateOrJoinGame from "./CreateOrJoinGame";
 import { socket } from "../socket";
-import TicTacToe from "./TicTacToe";
 import { GridItems } from "./types";
 import { Game, MoveResult } from "../../../types";
+import Lobby from "./Lobby";
 
 const Home = () => {
   const [gameIdClient, setGameIdClient] = useState("");
@@ -106,7 +106,7 @@ const Home = () => {
       {!gameIdClient ? (
         <CreateOrJoinGame gameNotFound={gameNotFound} />
       ) : (
-        <TicTacToe
+        <Lobby
           gridSize={3}
           gameId={gameIdClient}
           players={playersClient}

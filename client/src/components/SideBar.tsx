@@ -3,31 +3,30 @@ const SideBar: React.FC<{
   gameId: string;
   players: { [key: string]: string };
   playerSymbol: "X" | "O" | null;
-}> = ({ currentPlayer, gameId, players, playerSymbol }) => {
+  isGameFull: boolean;
+}> = ({ currentPlayer, gameId, playerSymbol, isGameFull }) => {
   return (
     <div className="m-auto" data-testid="sidebar-container">
-      <h2>Game ID: {gameId}</h2>
-      <h2>
-        <span
-          className={`font-bold ${
-            playerSymbol === "X" ? "text-green-500" : ""
-          }`}
-        >
-          Player X:
-        </span>{" "}
-        {players.X || "Waiting"}
-      </h2>
-      <h2>
-        <span
-          className={`font-bold ${
-            playerSymbol === "O" ? "text-green-500" : ""
-          }`}
-        >
-          Player O:
-        </span>{" "}
-        {players.O || "Waiting for player..."}
-      </h2>
-      <h1>{currentPlayer === "X" ? "Cross's turn" : "Circle's turn"}</h1>
+      <h1 className="text-2xl">Game ID: {gameId}</h1>
+      <h1 className="text-2xl">
+        <span className="font-bold">You are player {playerSymbol}</span>
+      </h1>
+      {isGameFull ? (
+        <h1>
+          Turn:{" "}
+          <span
+            className={`font-bold ${
+              currentPlayer === "X" ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            {currentPlayer}
+          </span>
+        </h1>
+      ) : (
+        <div className="text-center text-2xl">
+          Waiting for players to join...
+        </div>
+      )}
     </div>
   );
 };
