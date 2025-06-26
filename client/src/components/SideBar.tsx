@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { copyToClipboard } from "./utils";
 
 const SideBar: React.FC<{
@@ -7,13 +8,17 @@ const SideBar: React.FC<{
   playerSymbol: "X" | "O" | null;
   isGameFull: boolean;
 }> = ({ currentPlayer, gameId, playerSymbol, isGameFull }) => {
+  function handleCopyToClipboard() {
+    copyToClipboard(gameId);
+    toast.success("Game ID copied to clipboard");
+  }
   return (
     <div className="m-auto" data-testid="sidebar-container">
       <h1 className="text-2xl">
         Game ID:{" "}
         <span
           className="font-bold cursor-pointer"
-          onClick={() => copyToClipboard(gameId)}
+          onClick={handleCopyToClipboard}
         >
           {gameId}
         </span>
