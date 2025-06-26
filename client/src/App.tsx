@@ -5,6 +5,7 @@ import { socket } from "./socket";
 import TicTacToe from "./components/TicTacToe";
 import { GridItems } from "./components/types";
 import { Game, MoveResult } from "../../types";
+import Header from "./components/Header";
 
 function App() {
   const [gameIdClient, setGameIdClient] = useState("");
@@ -94,19 +95,24 @@ function App() {
 
   return (
     <>
-      {!gameIdClient ? (
-        <CreateOrJoinGame gameNotFound={gameNotFound} />
-      ) : (
-        <TicTacToe
-          gridSize={3}
-          gameId={gameIdClient}
-          players={playersClient}
-          playerSymbol={playerSymbol}
-          myTurn={currentPlayer === playerSymbol}
-          gridItems={gridItems}
-          currentPlayer={currentPlayer}
-        />
-      )}
+      <div className="flex flex-col items-center justify-center h-full">
+        <Header />
+        {!gameIdClient ? (
+          <div className="flex items-center justify-center h-full">
+            <CreateOrJoinGame gameNotFound={gameNotFound} />
+          </div>
+        ) : (
+          <TicTacToe
+            gridSize={3}
+            gameId={gameIdClient}
+            players={playersClient}
+            playerSymbol={playerSymbol}
+            myTurn={currentPlayer === playerSymbol}
+            gridItems={gridItems}
+            currentPlayer={currentPlayer}
+          />
+        )}
+      </div>
     </>
   );
 }
