@@ -6,7 +6,7 @@ const GridItem: React.FC<{
   gridSize: number;
   gameId: string;
   myTurn: boolean;
-}> = ({ gridItem, gridSize, gameId, myTurn }) => {
+}> = ({ gridItem, gameId, myTurn }) => {
   const clickGridItem = () => {
     if (gridItem?.player !== null || !myTurn) return;
     socket.emit("make-move", gameId, gridItem.id);
@@ -16,12 +16,8 @@ const GridItem: React.FC<{
       onClick={() => clickGridItem()}
       className="grid-item"
       data-testid="grid-item"
-      style={{
-        height: `${600 / gridSize}px`,
-        width: `${600 / gridSize}px`,
-      }}
     >
-      <h1>{gridItem?.player}</h1>
+      <span>{gridItem?.player}</span>
     </div>
   );
 };

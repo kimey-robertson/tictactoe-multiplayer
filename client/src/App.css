@@ -5,11 +5,20 @@
 }
 
 .game-board {
-  background-color: #e6e3e3;
-  color: black;
+  background-color: #242424;
+  color: white;
   width: 600px;
   height: 600px;
   border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-board-grid {
+  gap: 15px;
+  padding: 20px;
 }
 
 .game-container {
@@ -22,7 +31,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px #242424 solid;
+  border-radius: 15px;
+  background-color: #63a345;
+  border: none;
+  transition: all 0.2s ease;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+}
+
+.grid-item:hover {
+  background-color: #7bb55a;
+  transform: scale(1.02);
+}
+
+.grid-item:active {
+  background-color: #5a8f3a;
 }
 
 .create-or-join-game {
