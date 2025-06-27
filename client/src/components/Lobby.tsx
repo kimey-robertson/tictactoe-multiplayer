@@ -22,7 +22,7 @@ const Lobby: React.FC<{
   const isGameFull = Object.keys(players).length === 2;
 
   return (
-    <div className="flex game-container" data-testid={"game-container"}>
+    <div className="flex flex-col game-container" data-testid={"game-container"}>
       <SideBar
         currentPlayer={currentPlayer}
         gameId={gameId}

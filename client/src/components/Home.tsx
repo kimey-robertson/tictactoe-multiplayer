@@ -14,7 +14,11 @@ const Home = () => {
     {}
   );
   const [currentPlayer, setCurrentPlayer] = useState<"X" | "O">("X");
-  const [gridItems, setGridItems] = useState<GridItems>([]);
+  const [gridItems, setGridItems] = useState<GridItems>(
+    Array(9)
+      .fill(null)
+      .map((item, index) => ({ id: index, player: item }))
+  );
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -30,11 +34,11 @@ const Home = () => {
       setGameIdClient(game.gameId);
       setPlayerSymbol("X");
       setPlayersClient(game.players);
-      setGridItems(
-        Array(9)
-          .fill(null)
-          .map((item, index) => ({ id: index, player: item }))
-      );
+      //   setGridItems(
+      //     Array(9)
+      //       .fill(null)
+      //       .map((item, index) => ({ id: index, player: item }))
+      //   );
     });
 
     socket.on("game-joined", (game: Game) => {

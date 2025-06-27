@@ -14,8 +14,8 @@ const SideBar: React.FC<{
     toast.success("Game ID copied to clipboard");
   }
   return (
-    <div className="m-auto" data-testid="sidebar-container">
-      <h1 className="text-2xl flex items-center justify-center mb-3">
+    <div className="m-auto mb-3" data-testid="sidebar-container">
+      {!isGameFull ? <h1 className="text-2xl flex items-center justify-center mb-3">
         <span className="mr-2">Send this game ID to your friend:</span>
         <span
           className="font-bold cursor-pointer flex items-center hover:text-blue-500 transition-colors duration-300"
@@ -24,7 +24,7 @@ const SideBar: React.FC<{
           {gameId}
           <FaCopy className="ml-2" size={20} />
         </span>
-      </h1>
+      </h1> : null}
       <h1 className="text-2xl">
         <span className="font-bold">You are player {playerSymbol}</span>
       </h1>
@@ -33,7 +33,7 @@ const SideBar: React.FC<{
           Turn:{" "}
           <span
             className={`font-bold ${
-              currentPlayer === "X" ? "text-green-500" : "text-red-500"
+              playerSymbol === currentPlayer ? "text-green-500" : "text-red-500"
             }`}
           >
             {currentPlayer}
