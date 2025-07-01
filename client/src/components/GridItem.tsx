@@ -17,7 +17,7 @@ const GridItem: React.FC<{
       className="grid-item"
       data-testid="grid-item"
     >
-      <span>{gridItem?.player}</span>
+      <span className="absolute">{gridItem?.player}</span>
     </div>
   );
 };
