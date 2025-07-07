@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { socket } from "../socket";
+import { getSocket } from "../socket";
 import { GridItems } from "../components/types";
 import { Game, MoveResult } from "../../../types";
 import { toast } from "react-hot-toast";
 
 export const useGameSockets = () => {
+  const socket = getSocket();
   const [gameIdClient, setGameIdClient] = useState("");
   const [playerSymbol, setPlayerSymbol] = useState<"X" | "O">("X");
   const [gameNotFound, setGameNotFound] = useState(false);

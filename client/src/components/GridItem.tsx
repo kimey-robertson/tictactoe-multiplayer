@@ -1,4 +1,4 @@
-import { socket } from "../socket";
+import { getSocket } from "../socket";
 import type { GridItem } from "./types";
 
 const GridItem: React.FC<{
@@ -7,6 +7,8 @@ const GridItem: React.FC<{
   gameId: string;
   myTurn: boolean;
 }> = ({ gridItem, gameId, myTurn }) => {
+  const socket = getSocket();
+
   const clickGridItem = () => {
     if (gridItem?.player !== null || !myTurn) return;
     socket.emit("make-move", gameId, gridItem.id);

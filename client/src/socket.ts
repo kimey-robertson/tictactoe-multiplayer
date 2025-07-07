@@ -1,7 +1,20 @@
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
-export const socket = io(
-  process.env.NODE_ENV === "production"
-    ? "https://tictactoe-multiplayer-production-a919.up.railway.app/"
-    : "http://localhost:8000"
-);
+let socket: Socket | null = null;
+
+export const getSocket = (): Socket => {
+  if (!socket) {
+    socket = io(
+      process.env.NODE_ENV === "production"
+        ? "https://tictactoe-multiplayer-production-a919.up.railway.app/"
+        : "http://localhost:8000",
+      {
+        // Prevent frequent reconnections
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        reconnectionAttempts: 5,
+      }
+    );
+  }
+  return socket;
+};

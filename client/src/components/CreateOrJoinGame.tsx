@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { socket } from "../socket";
+import { getSocket } from "../socket";
 
 const CreateOrJoinGame = ({ gameNotFound }: { gameNotFound: boolean }) => {
+  const socket = getSocket();
+
   const [join, setJoin] = useState(false);
   const [gameIdInput, setGameIdInput] = useState("");
 
