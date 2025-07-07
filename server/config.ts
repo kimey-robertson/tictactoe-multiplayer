@@ -12,7 +12,7 @@ export const createServer = () => {
   app.use(express.static(path.join(__dirname, "../client/dist")));
 
   // Handle client-side routing (catch-all for SPA)
-  app.get("*", (req, res) => {
+  app.get("/{*any}", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
 
