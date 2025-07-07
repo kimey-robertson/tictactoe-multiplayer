@@ -7,8 +7,18 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <>
-      <Toaster />
-      <div className="flex flex-col items-center justify-center h-full">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            fontSize: "16px",
+            padding: "12px 16px",
+            maxWidth: "90vw",
+          },
+        }}
+      />
+      <div className="flex flex-col items-center justify-center h-full min-h-screen">
         <Header />
         <Home />
       </div>

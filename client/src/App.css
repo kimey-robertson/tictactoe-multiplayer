@@ -2,28 +2,34 @@
   width: 100%;
   text-align: center;
   height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 
 .game-board {
   background-color: #242424;
   color: white;
-  width: 600px;
-  height: 600px;
+  width: min(90vw, 600px);
+  height: min(90vw, 600px);
+  max-width: 600px;
+  max-height: 600px;
   border-radius: 20px;
   padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 }
 
 .game-board-grid {
-  gap: 15px;
-  padding: 20px;
+  gap: min(15px, 3vw);
+  padding: min(20px, 4vw);
 }
 
 .game-container {
   justify-content: center;
   align-items: center;
+  padding: 0 10px;
 }
 
 .grid-item {
@@ -35,9 +41,11 @@
   background-color: #63a345;
   border: none;
   transition: all 0.2s ease;
-  font-size: 3rem;
+  font-size: clamp(2rem, 8vw, 3rem);
   font-weight: bold;
   color: white;
+  min-height: 60px;
+  aspect-ratio: 1;
 }
 
 .grid-item:hover {
@@ -54,11 +62,72 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+  padding: 0 20px;
 }
 
 .header {
   background-color: #63a345;
   width: 100%;
-  padding: 20px;
+  padding: min(20px, 4vw);
   border-radius: 0 0 40px 40px;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .game-board {
+    width: 95vw;
+    height: 95vw;
+    max-width: 400px;
+    max-height: 400px;
+    padding: 10px;
+    border-radius: 15px;
+  }
+
+  .game-board-grid {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .grid-item {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    border-radius: 10px;
+    min-height: 50px;
+  }
+
+  .header {
+    padding: 15px;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .create-or-join-game {
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 30px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .game-board {
+    width: 98vw;
+    height: 98vw;
+    max-width: 350px;
+    max-height: 350px;
+    padding: 8px;
+  }
+
+  .game-board-grid {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .grid-item {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    min-height: 40px;
+  }
+
+  .header {
+    padding: 12px;
+  }
 }

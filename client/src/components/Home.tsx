@@ -13,16 +13,20 @@ const Home = () => {
     gridItems,
   } = useGameSockets();
 
+  console.log("gameIdClient", gameIdClient);
+
   if (!connected) {
     return (
-      <div className="flex items-center justify-center h-full text-2xl">
-        Attempting to connect to server...
+      <div className="flex items-center justify-center h-full p-4">
+        <div className="text-lg sm:text-xl md:text-2xl text-center">
+          Attempting to connect to server...
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex items-center justify-center h-full w-full px-4">
       {!gameIdClient ? (
         <CreateOrJoinGame gameNotFound={gameNotFound} />
       ) : (

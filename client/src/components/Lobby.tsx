@@ -22,7 +22,10 @@ const Lobby: React.FC<{
   const isGameFull = Object.keys(players).length === 2;
 
   return (
-    <div className="flex flex-col game-container" data-testid={"game-container"}>
+    <div
+      className="flex flex-col game-container w-full max-w-4xl mx-auto px-4"
+      data-testid={"game-container"}
+    >
       <SideBar
         currentPlayer={currentPlayer}
         gameId={gameId}
@@ -31,12 +34,14 @@ const Lobby: React.FC<{
         isGameFull={isGameFull}
       />
       {isGameFull ? (
-        <GameBoard
-          gridItems={gridItems}
-          gridSize={gridSize}
-          gameId={gameId}
-          myTurn={myTurn}
-        />
+        <div className="flex justify-center items-center w-full">
+          <GameBoard
+            gridItems={gridItems}
+            gridSize={gridSize}
+            gameId={gameId}
+            myTurn={myTurn}
+          />
+        </div>
       ) : null}
     </div>
   );

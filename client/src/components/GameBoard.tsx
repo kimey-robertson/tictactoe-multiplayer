@@ -1,5 +1,6 @@
 import type { GridItems } from "./types";
 import GridItem from "./GridItem";
+
 const GameBoard: React.FC<{
   gridItems: GridItems;
   gridSize: number;
@@ -8,7 +9,7 @@ const GameBoard: React.FC<{
 }> = ({ gridItems, gridSize, gameId, myTurn }) => (
   <div className="game-board">
     <div
-      className={`grid h-[560px] w-[560px] game-board-grid`}
+      className="grid game-board-grid w-full h-full"
       style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}
     >
       {gridItems.map((gridItem, index) => (
