@@ -8,7 +8,7 @@
 
 .game-board {
   background-color: #242424;
-  color: white;
+  color: #fff;
   width: min(90vw, 600px);
   height: min(90vw, 600px);
   max-width: 600px;
